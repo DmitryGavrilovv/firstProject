@@ -172,3 +172,44 @@ img {
 .page-header__nav-link:active {
   color: #BC3324;
 }
+.blog-card {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+.blog-card__picture {
+  position: relative;
+  display: block;
+  max-width: 467px;
+  width: 100%;
+}
+.blog-card__picture::before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.blog-card__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.blog-card__info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.blog-card__info-time {
+  display: block;
+  margin-bottom: 70px;
+}

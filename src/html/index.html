@@ -6,18 +6,10 @@
 <body>
   @@include('blocks/page-header.html')
   <main class="page-main">
-    <div class="events">
-      <section class="listing events__listing">
-        <h2 class="listing__section-title section-title">МЕРОПРИЯТИЯ</h2>
-          @@include('blocks/events.html')
-        <div class="listining__events-list">
-          
-        </div>
-      </section>
-    </div>
+ 
 
     <div class="home">
-      
+      @@include('blocks/blog-listing.html', {"class": "home__blog-listing"})
     </div>
 
 
