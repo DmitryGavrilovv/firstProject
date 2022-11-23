@@ -21,6 +21,7 @@ import server from "browser-sync";
 const resources = {
     html: "src/html/**/*.html",
     less: "src/styles/**/*.less",
+    svgSprite: "src/assets/svg-sprite/*.svg",
     jsDev: "src/scripts/dev/**/*.js",
     jsVendor: "src/scripts/vendor/**/*.js",
     static: [
@@ -31,8 +32,8 @@ const resources = {
         "src/assets/audio/**/*.{mp3,ogg,wav,aac}",
         "src/json/**/*.json",
         "src/php/**/*.php"
-      ],
-      images: "src/assets/images/**/*.{png,jpg,webp,gif,svg}"
+    ],
+    images: "src/assets/images/**/*.{png,jpg,webp,gif,svg}"
 };
 
 function clean() {
@@ -93,56 +94,56 @@ function js() {
 }
 
 function jsCopy() {
-    return gulp 
-    .src(resources.jsVendor)
-    .pipe(plumber())
-    .pipe(gulp.dest("dist/scripts"));
+    return gulp
+        .src(resources.jsVendor)
+        .pipe(plumber())
+        .pipe(gulp.dest("dist/scripts"));
 }
 
 function copy() {
     return gulp
-    .src(resources.static, {
-        base: "src"
-    })
-    .pipe(gulp.dest("dist/"));
+        .src(resources.static, {
+            base: "src"
+        })
+        .pipe(gulp.dest("dist/"));
 }
 
 function images() {
     return gulp
-    .src(resources.images)
-    .pipe(
-        imagemin([
-            imagemin_gifscile({
-                interlaced: true
-            }),
-            imagemin_mozjpeg({
-                 quality: 100, progressive: true
+        .src(resources.images)
+        .pipe(
+            imagemin([
+                imagemin_gifsicle({
+                    interlaced: true
                 }),
-            imagemin_optipng({
-                optimization: 3
-            })
-        ])
-    )
-    .pipe(gulp.dest("dist/assets/images"));
+                imagemin_mozjpeg({
+                    quality: 100, progressive: true
+                }),
+                imagemin_optipng({
+                    optimization: 3
+                })
+            ])
+        )
+        .pipe(gulp.dest("dist/assets/images"));
 }
 
 function svgSprite() {
-    return gulp 
-    .src(resources.svgSprite)
-    .pipe(
-        svgmin({
-            js2svg: {
-                pretty: true
-            }
-        })
-    )
-    .pipe(
-        svgstore({
-            inlineSvg: true
-        })
-    )
-    .pipe(rename("symbols.svg"))
-    .pipe(gulp.dest("dist/assets/icons"));
+    return gulp
+        .src(resources.svgSprite)
+        .pipe(
+            svgmin({
+                js2svg: {
+                    pretty: true
+                }
+            })
+        )
+        .pipe(
+            svgstore({
+                inlineSvg: true
+            })
+        )
+        .pipe(rename("symbols.svg"))
+        .pipe(gulp.dest("dist/assets/icons"));
 }
 
 const build = gulp.series(
@@ -165,16 +166,16 @@ function serve() {
     server.init({
         server: "dist"
     });
-    gulp.watch(resources.html,  gulp.series(includeHtml, reloadServer));
-    gulp.watch(resources.less,  gulp.series(style, reloadServer));
-    gulp.watch(resources.jsDev,  gulp.series(js, reloadServer));
-    gulp.watch(resources.jsVendor,  gulp.series(jsCopy, reloadServer));
-    gulp.watch(resources.static, {delay: 500},  gulp.series(copy, reloadServer));
-    gulp.watch(resources.images, {delay: 500}, gulp.series(images, reloadServer));
-    gulp.watch(resources.svhSprite,  gulp.series(svgSprite, reloadServer));
+    gulp.watch(resources.html, gulp.series(includeHtml, reloadServer));
+    gulp.watch(resources.less, gulp.series(style, reloadServer));
+    gulp.watch(resources.jsDev, gulp.series(js, reloadServer));
+    gulp.watch(resources.jsVendor, gulp.series(jsCopy, reloadServer));
+    gulp.watch(resources.static, { delay: 500 }, gulp.series(copy, reloadServer));
+    gulp.watch(resources.images, { delay: 500 }, gulp.series(images, reloadServer));
+    gulp.watch(resources.svgSprite, gulp.series(svgSprite, reloadServer));
 }
 
-const start = gulp.series(build,serve);
+const start = gulp.series(build, serve);
 
 export {
     clean,
